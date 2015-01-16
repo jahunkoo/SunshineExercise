@@ -1,4 +1,4 @@
-package com.android.jahunkoo.sunshineexercise.test;
+package com.android.jahunkoo.sunshineexercise;
 
 import android.test.suitebuilder.TestSuiteBuilder;
 
@@ -11,7 +11,8 @@ import junit.framework.TestSuite;
 public class FullTestSuite extends TestSuite {
 
     public static Test suite() {
-        return new TestSuiteBuilder(FullTestSuite.class).includeAllPackagesUnderHere().build();
+        return new TestSuiteBuilder(FullTestSuite.class)
+                .includeAllPackagesUnderHere().build();
     }
     public FullTestSuite() {
         super();

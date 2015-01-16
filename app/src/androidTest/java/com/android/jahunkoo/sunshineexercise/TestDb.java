@@ -1,4 +1,4 @@
-package com.android.jahunkoo.sunshineexercise.test;
+package com.android.jahunkoo.sunshineexercise;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * 이 클래스 안의 모든 함수들이 실행됨
  * Created by Jahun Koo on 2015-01-16.
  */
 public class TestDb extends AndroidTestCase {
@@ -35,7 +36,8 @@ public class TestDb extends AndroidTestCase {
 
         long locationRowId;
         locationRowId = db.insert(LocationEntry.TABLE_NAME, null, values);
-        assertTrue(locationRowId != -1);                //??????????????????????????????????????
+
+        assertTrue(locationRowId != -1);
         Log.d(LOG_TAG, "New row id: " + locationRowId);
 
         Cursor cursor = db.query(
@@ -110,4 +112,5 @@ public class TestDb extends AndroidTestCase {
         }
         valueCursor.close();
     }
+
 }
