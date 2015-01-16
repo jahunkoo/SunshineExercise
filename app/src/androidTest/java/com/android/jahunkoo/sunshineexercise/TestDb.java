@@ -51,7 +51,6 @@ public class TestDb extends AndroidTestCase {
         );
         validateCursor(cursor,values);
 
-
         ContentValues weatherValues = createWeatherValues(locationRowId);
 
         long weatherRowId = db.insert(WeatherEntry.TABLE_NAME, null, weatherValues);
