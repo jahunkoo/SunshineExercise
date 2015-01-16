@@ -5,15 +5,18 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 /**
  * Created by Jahun Koo on 2015-01-15.
  */
-public class SettingsActivity extends PreferenceActivity
-implements Preference.OnPreferenceChangeListener{
+public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener{
+
+    private static final String LOG_TAG = SettingsActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.v(LOG_TAG, "in SettingsActivity onCreate");
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_general);
         bindPreferencesSummaryToValue(findPreference(getString(R.string.pref_location_key)));
@@ -47,5 +50,33 @@ implements Preference.OnPreferenceChangeListener{
         return true;
     }
 
+    @Override
+    protected void onStart() {
+        Log.v(LOG_TAG, "in SettingsActivity onStart");
+        super.onStart();
+    }
 
+    @Override
+    protected void onResume() {
+        Log.v(LOG_TAG, "in SettingsActivity onResume");
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.v(LOG_TAG, "in SettingsActivity onPause");
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.v(LOG_TAG, "in SettingsActivity onStop");
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.v(LOG_TAG, "in SettingsActivity onDestroy");
+        super.onDestroy();
+    }
 }
