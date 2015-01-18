@@ -51,7 +51,6 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
                 ");"; // ON CONFLICT clause는 SQLite만의 문법. 'or'로 바꿔서 읽으면 더 읽기 편할 것이라 얘기함.
                                                                          // 중복되는 값이 발생하면 새로운 것으로 replace됨
                                                                          // https://www.sqlite.org/lang_conflict.html
-
         db.execSQL(SQL_CREATE_LOCATION_TABLE);
         db.execSQL(SQL_CREATE_WEATHER_TABLE);
     }

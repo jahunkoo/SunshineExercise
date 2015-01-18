@@ -17,8 +17,6 @@ public class WeatherContract {
     public static final String PATH_WEATHER = "weather";
     public static final String PATH_LOCATION = "location";
 
-
-
     public static final class LocationEntry implements BaseColumns{
 
         public static final Uri CONTENT_URI =
