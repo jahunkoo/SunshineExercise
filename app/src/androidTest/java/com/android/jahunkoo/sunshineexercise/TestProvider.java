@@ -1,8 +1,10 @@
 package com.android.jahunkoo.sunshineexercise;
 
+import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
@@ -41,7 +43,6 @@ public class TestProvider extends AndroidTestCase {
                 null,
                 null
         );
-
         TestDb.validateCursor(cursor, testValues);
 
         cursor = mContext.getContentResolver().query(
@@ -51,7 +52,6 @@ public class TestProvider extends AndroidTestCase {
                 null,   // values for "where" clause
                 null    // sort order
         );
-
         TestDb.validateCursor(cursor, testValues);
 
         ContentValues weatherValues = TestDb.createWeatherValues(locationRowId);
@@ -65,8 +65,39 @@ public class TestProvider extends AndroidTestCase {
                 null,   //values for "where" clause
                 null    // columns to group by
         );
+        TestDb.validateCursor(weatherCursor, weatherValues);
 
-        TestDb.validateCursor(weatherCursor,weatherValues);
+
+        // Problem
+        addAllContentValues(weatherValues, testValues);
+
+        weatherCursor = mContext.getContentResolver().query(
+                WeatherEntry.buildWeatherLocation(TestDb.TEST_LOCATION),
+                null,
+                null,
+                null,
+                null
+        );
+        TestDb.validateCursor(weatherCursor, weatherValues);
+
+        weatherCursor = mContext.getContentResolver().query(
+                WeatherEntry.buildWeatherLocationWithStartDate(TestDb.TEST_LOCATION, TestDb.TEST_DATE),
+                null,
+                null,
+                null,
+                null
+        );
+        TestDb.validateCursor(weatherCursor, weatherValues);
+
+
+        weatherCursor = mContext.getContentResolver().query(
+                WeatherEntry.buildWeatherLocationWithDate(TestDb.TEST_LOCATION, TestDb.TEST_DATE),
+                null,
+                null,
+                null,
+                null
+        );
+        TestDb.validateCursor(weatherCursor, weatherValues);
 
         dbHelper.close();
     }
@@ -93,7 +124,13 @@ public class TestProvider extends AndroidTestCase {
 
         type = mContext.getContentResolver().getType(LocationEntry.buildLocationUri(1L));
         assertEquals(LocationEntry.CONTENT_ITEM_TYPE, type);
-
     }
 
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    void addAllContentValues(ContentValues destination, ContentValues source){
+        for(String key : source.keySet()){
+            destination.put(key, source.getAsString(key));
+        }
+    }
 }

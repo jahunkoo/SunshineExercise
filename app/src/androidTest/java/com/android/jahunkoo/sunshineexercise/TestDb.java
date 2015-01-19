@@ -20,6 +20,9 @@ import java.util.Set;
 public class TestDb extends AndroidTestCase {
 
     public static final String LOG_TAG = TestDb.class.getSimpleName();
+    static final String TEST_LOCATION = "99705";
+    static final String TEST_DATE = "20141205";
+
 
     public void testCreateDb() throws Throwable {
         mContext.deleteDatabase(WeatherDbHelper.DATABASE_NAME);
@@ -75,7 +78,7 @@ public class TestDb extends AndroidTestCase {
     static ContentValues createWeatherValues(long locationRowId){
         ContentValues weatherValues = new ContentValues();
         weatherValues.put(WeatherEntry.COLUMN_LOC_KEY, locationRowId);
-        weatherValues.put(WeatherEntry.COLUMN_DATETEXT, "20150116");
+        weatherValues.put(WeatherEntry.COLUMN_DATETEXT, TEST_DATE);
         weatherValues.put(WeatherEntry.COLUMN_WEATHER_ID, 123);
         weatherValues.put(WeatherEntry.COLUMN_SHORT_DESC, "android jam");
         weatherValues.put(WeatherEntry.COLUMN_MIN_TEMP, 34);
@@ -90,7 +93,7 @@ public class TestDb extends AndroidTestCase {
 
     static ContentValues createNorthPoleLocationValues() {
         ContentValues values = new ContentValues();
-        values.put(LocationEntry.COLUMN_LOCATION_SETTING, "99705");
+        values.put(LocationEntry.COLUMN_LOCATION_SETTING, TEST_LOCATION);
         values.put(LocationEntry.COLUMN_CITY_NAME, "North Pole");
         values.put(LocationEntry.COLUMN_COORD_LAT, 64.7488);
         values.put(LocationEntry.COLUMN_COORD_LONG, -147.353);
