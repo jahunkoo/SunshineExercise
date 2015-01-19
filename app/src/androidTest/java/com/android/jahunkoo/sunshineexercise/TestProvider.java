@@ -22,7 +22,7 @@ public class TestProvider extends AndroidTestCase {
         mContext.deleteDatabase(WeatherDbHelper.DATABASE_NAME);
     }
 
-    public void testInsertReadDb() {
+    public void testInsertReadProvider() {
         WeatherDbHelper dbHelper = new WeatherDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -34,10 +34,8 @@ public class TestProvider extends AndroidTestCase {
         assertTrue(locationRowId != -1);
         Log.d(LOG_TAG, "New row id: " + locationRowId);
 
-        Cursor cursor = db.query(
-                LocationEntry.TABLE_NAME,
-                null,
-                null,
+        Cursor cursor = mContext.getContentResolver().query(
+                LocationEntry.CONTENT_URI,
                 null,
                 null,
                 null,
@@ -46,18 +44,26 @@ public class TestProvider extends AndroidTestCase {
 
         TestDb.validateCursor(cursor, testValues);
 
+        cursor = mContext.getContentResolver().query(
+                LocationEntry.buildLocationUri(locationRowId),
+                null,   // leaving "columns" null just returns all the columns.
+                null,   // cols for "where" clause
+                null,   // values for "where" clause
+                null    // sort order
+        );
+
+        TestDb.validateCursor(cursor, testValues);
+
         ContentValues weatherValues = TestDb.createWeatherValues(locationRowId);
         long weatherRowId = db.insert(WeatherContract.WeatherEntry.TABLE_NAME, null, weatherValues);
         assertTrue( weatherRowId != -1);
 
-        Cursor weatherCursor = db.query(
-                WeatherEntry.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
+        Cursor weatherCursor = mContext.getContentResolver().query(
+                WeatherEntry.CONTENT_URI,   //Table to Query
+                null,   //leaving "columns" null just returns all the columns.
+                null,   //cols for "where" clause
+                null,   //values for "where" clause
+                null    // columns to group by
         );
 
         TestDb.validateCursor(weatherCursor,weatherValues);
@@ -82,9 +88,11 @@ public class TestProvider extends AndroidTestCase {
                 WeatherEntry.buildWeatherLocationWithDate(testLocation, testDate));
         assertEquals(WeatherEntry.CONTENT_ITEM_TYPE, type);
 
-        type = mContext.getContentResolver().getType(
+        type = mContext.getContentResolver().getType(LocationEntry.CONTENT_URI);
+        assertEquals(LocationEntry.CONTENT_TYPE, type);
 
-        )
+        type = mContext.getContentResolver().getType(LocationEntry.buildLocationUri(1L));
+        assertEquals(LocationEntry.CONTENT_ITEM_TYPE, type);
 
     }
 
