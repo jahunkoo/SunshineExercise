@@ -205,7 +205,7 @@ public class WeatherProvider extends ContentProvider{
         switch(match){
             case WEATHER: {
                 long _id = db.insert(WeatherContract.WeatherEntry.TABLE_NAME, null, values);
-                if(_id >0 )
+                if( _id >0 )
                     returnUri = WeatherContract.WeatherEntry.buildWeatherUri(_id);
                 else
                     throw new SQLException("Failed to insert row into " + uri);
@@ -272,4 +272,29 @@ public class WeatherProvider extends ContentProvider{
         return rowsUpdated;
     }
 
+    @Override
+    public int bulkInsert(Uri uri, ContentValues[] values) {
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        switch(match){
+            case WEATHER:
+                db.beginTransaction();
+                int returnCount = 0;
+                try{
+                    for(ContentValues value : values){
+                        long _id = db.insert(WeatherContract.WeatherEntry.TABLE_NAME, null, value);
+                        if(_id != -1) {
+                            returnCount++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                }finally{
+                    db.endTransaction();
+                }
+                getContext().getContentResolver().notifyChange(uri, null);
+                return returnCount;
+            default:
+                return super.bulkInsert(uri, values);
+        }
+    }
 }

@@ -219,6 +219,7 @@ public class TestProvider extends AndroidTestCase {
         weatherValues.put(WeatherEntry.COLUMN_MAX_TEMP, 85);
         weatherValues.put(WeatherEntry.COLUMN_MIN_TEMP, 35);
         weatherValues.put(WeatherEntry.COLUMN_SHORT_DESC, "Cats and Dogs");
+        weatherValues.put(WeatherEntry.COLUMN_WIND_SPEED, 3.4);
         weatherValues.put(WeatherEntry.COLUMN_WEATHER_ID, 42);
 
         return weatherValues;
@@ -233,7 +234,7 @@ public class TestProvider extends AndroidTestCase {
 
         return testValues;
     }
-/*
+
     public void insertKalamazooData() {
         ContentValues kalamazooLocationValues = createKalamazooLocationValues();
         Uri locationInsertUri = mContext.getContentResolver().insert(LocationEntry.CONTENT_URI, kalamazooLocationValues);
@@ -242,7 +243,58 @@ public class TestProvider extends AndroidTestCase {
         locationRowId = ContentUris.parseId(locationInsertUri);
 
         ContentValues kalamazooWeatherValues = createKalamazooWeatherValues(locationRowId);
-        Uri weatherInsertUri = mConte
-    }*/
+        Uri weatherInsertUri = mContext.getContentResolver().insert(WeatherEntry.CONTENT_URI, kalamazooWeatherValues);
+        assertTrue(weatherInsertUri != null);
+    }
+
+    public void testUpdateAndReadWeather() {
+        insertKalamazooData();
+        String newDescription = "Cats and Frogs (don't warn the tadpoles!)";
+
+        ContentValues kalamazooUpdate = new ContentValues();
+        kalamazooUpdate.put(WeatherEntry.COLUMN_SHORT_DESC, newDescription);
+
+//update가 가능한가?? 어느 레코드에(where)절이 없는데 어떻게 update가 가능하지???
+        mContext.getContentResolver().update(WeatherEntry.CONTENT_URI, kalamazooUpdate, null, null);
+
+        Cursor weatherCursor = mContext.getContentResolver().query(
+                WeatherEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
+
+        ContentValues kalamazooAltered = createKalamazooWeatherValues(locationRowId);
+        kalamazooAltered.put(WeatherEntry.COLUMN_SHORT_DESC, newDescription);
+
+        TestDb.validateCursor(weatherCursor, kalamazooAltered);
+    }
+
+    /**
+     * 문제가 많은 메서드.
+     * http://forums.udacity.com/questions/100212444/i-cannot-make-sense-of-the-advanced-test?page=1&focusedAnswerId=100212800#100212800
+     */
+    public void testRemoveHumidityAndReadWeather() {
+     insertKalamazooData();
+
+     mContext.getContentResolver().delete(WeatherEntry.CONTENT_URI,
+             WeatherEntry.COLUMN_HUMIDITY + " = " + locationRowId, null);
+
+        Cursor weatherCursor = mContext.getContentResolver().query(
+                WeatherEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
+
+        ContentValues kalamazooAltered = createKalamazooWeatherValues(locationRowId);
+        kalamazooAltered.remove(WeatherEntry.COLUMN_HUMIDITY);
+
+        TestDb.validateCursor(weatherCursor, kalamazooAltered);
+        //int idx = weatherCursor.getColumnIndex(WeatherEntry.COLUMN_HUMIDITY);
+        //assertEquals(-1, idx);
+    }
 
 }
