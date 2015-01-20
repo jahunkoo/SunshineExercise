@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -42,6 +43,8 @@ public class FetchWeatherTask extends AsyncTask<String,Void,String[]> {
         this.mContext = mContext;
         this.mForecastAdapter = forecastAdapter;
     }
+
+    private boolean DEBUG = true;
 
     private String getReadableDateString(long time){
 
@@ -193,6 +196,34 @@ public class FetchWeatherTask extends AsyncTask<String,Void,String[]> {
             String day = getReadableDateString(dateTime);
             resultStrs[i] = day + " - " + description + " - " + highAndLow;
         }
+        if(cvVector.size() >0) {
+            ContentValues[] cvArray =new ContentValues[cvVector.size()];
+            cvVector.toArray(cvArray);
+            int rowsInserted = mContext.getContentResolver().bulkInsert(WeatherEntry.CONTENT_URI, cvArray);
+            Log.v(LOG_TAG, "inserted " + rowsInserted + " rows of weather data");
+
+            if(DEBUG){
+                Cursor weatherCursor = mContext.getContentResolver().query(
+                        WeatherEntry.CONTENT_URI,
+                        null,
+                        null,
+                        null,
+                        null
+                );
+
+                if(weatherCursor.moveToFirst()){
+                    ContentValues resultValues = new ContentValues();
+                    DatabaseUtils.cursorRowToContentValues(weatherCursor, resultValues); //이런게 있다니 -_-
+                    Log.v(LOG_TAG, "Query succeeded! ********");
+                    for(String key : resultValues.keySet()){
+                        Log.v(LOG_TAG, key + ": " + resultValues.getAsString(key));
+                    }
+                }else{
+                    Log.v(LOG_TAG, "Query failed! :( ********");
+                }
+            }
+        }
+
         return resultStrs;
     }
 
