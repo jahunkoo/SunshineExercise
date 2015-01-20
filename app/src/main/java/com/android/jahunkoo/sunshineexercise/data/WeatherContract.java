@@ -4,6 +4,9 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * 날씨 데이터베이스를 위해 테이블과 컬럼 이름들을 정의한다.
  * Created by Jahun Koo on 2015-01-15.
@@ -16,6 +19,13 @@ public class WeatherContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_WEATHER = "weather";
     public static final String PATH_LOCATION = "location";
+
+    public static final String DATE_FORMAT = "yyyyMMdd";
+
+    public static String getDbDateString(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        return sdf.format(date);
+    }
 
     public static final class LocationEntry implements BaseColumns{
 
