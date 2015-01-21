@@ -3,6 +3,7 @@ package com.android.jahunkoo.sunshineexercise;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +78,7 @@ public class ForecastAdapter extends CursorAdapter{
 
         //Read date from cursor
         String dateString = cursor.getString(ForecastFragment.COL_WEATHER_DATE);
+        Log.d("koo", "forecast fragment dateString: "+dateString );
         viewHolder.dateView.setText(Utility.getFriendlyDayString(context, dateString));
 
         //Read weather forecast from cursor
@@ -88,11 +90,11 @@ public class ForecastAdapter extends CursorAdapter{
 
         //Read high temperature from cursor
         double high = cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP);
-        viewHolder.highTempView.setText(Utility.formatTemperature(high, isMetric));
+        viewHolder.highTempView.setText(Utility.formatTemperature(context, high, isMetric));
 
         //Read low temperature from cursor
         double low = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
-        viewHolder.lowTempView.setText(Utility.formatTemperature(low, isMetric));
+        viewHolder.lowTempView.setText(Utility.formatTemperature(context, low, isMetric));
     }
 
     @Override
