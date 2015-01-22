@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="app_name">Sunshine</string>
     <string name="action_settings">Settings</string>
@@ -13,20 +13,26 @@
     <string name="pref_location_label">Location</string>
     <string name="pref_location_key" translatable="false">location</string>
     <string name="pref_location_default" translatable="false">94043</string>
+    <string name="pref_last_sync">last_sync</string>
 
     <string name="pref_units_label">Temperature Units</string>
     <string name="pref_units_label_metric">Metric</string>
     <string name="pref_units_label_imperial">Imperial</string>
+
     <string name="pref_units_key" translatable="false">Imperial</string>
     <string name="pref_units_metric" translatable="false">metric</string>
     <string name="pref_units_imperial" translatable="false">imperial</string>
+
+    <string name="format_notification">
+        Forecast for today: %1$s with a high of %2$s and low of %3$s.
+    </string>
 
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
 
     <!-- Date format for displaying day of week and date (i.e. Mon Jun 1) -->
     <string name="format_full_friendly_date">
-        <xliff:g id="day">%1$s</xliff:g>, <xliff:g id="date">%2$s</xliff:g>
+        <xliff:g id="month">%1$s</xliff:g>, <xliff:g id="day">%2$s</xliff:g>
     </string>
 
     <!-- Temperature formats -->
@@ -34,11 +40,11 @@
 
     <!-- Windspeed format in mph  -->
     <string name="format_wind_mph" >
-        Wind: <xliff:g id="wind_speed">%1.0f</xliff:g> mph <xliff:g id="wind_dir">%2$s</xliff:g></string>
+        Wind: <xliff:g id="wind_speed">%1$1.0f</xliff:g> mph <xliff:g id="wind_dir">%2$s</xliff:g></string>
 
     <!-- WindSpeed format in km/h -->
     <string name="format_wind_kmh" >
-        Wind: <xliff:g id="wind_speed">%1.0f</xliff:g> km/h <xliff:g id="wind_dir">%2$s</xliff:g></string>
+        Wind: <xliff:g id="wind_speed">%1$1.0f</xliff:g> km/h <xliff:g id="wind_dir">%2$s</xliff:g></string>
 
     <!-- Pressure forat in hPa -->
     <string name="format_pressure" >
@@ -47,5 +53,15 @@
     <!-- Humidity format in % -->
     <string name="format_humidity" >
         Humidity: <xliff:g id="humidity">%1.0f</xliff:g> %%</string>
+
+    <!-- Share format [CHAR LIMIT=NONE]-->
+    <string name="format_share">
+        Weather for <xliff:g id="date">%1$s</xliff:g> in <xliff:g id="location">%2$s</xliff:g>:
+        A high of <xliff:g id="high">%3$s</xliff:g> and low of
+    <xliff:g id="low">%4$s</xliff:g></string>
+
+    <!-- SyncAdapter related -->
+    <string name="sync_account_type">example.com</string>
+    <string name="sync_authority">"ccom.android.jahunkoo.sunshineexercise"</string>
 
 </resources>

@@ -176,15 +176,17 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mIconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
 
             String date = data.getString(data.getColumnIndex(WeatherEntry.COLUMN_DATETEXT));
-            Log.d(LOG_TAG, "==date:"+ date );
+
             String friendlyDateText = Utility.getDayName(getActivity(), date);
             String dateText = Utility.getFormattedMonthDay(getActivity(), date);
-            Log.d(LOG_TAG, "Date:"+ friendlyDateText + " Day:"+dateText );
+
             mFriendlyDateView.setText(friendlyDateText);
             mDateView.setText(dateText);
 
             String description = data.getString(data.getColumnIndex(WeatherEntry.COLUMN_SHORT_DESC));
             mDescriptionView.setText(description);
+
+            mIconView.setContentDescription(description);
 
             boolean isMetric = Utility.isMetric(getActivity());
 
