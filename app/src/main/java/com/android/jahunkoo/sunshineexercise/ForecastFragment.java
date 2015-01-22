@@ -20,6 +20,7 @@ import android.widget.ListView;
 import com.android.jahunkoo.sunshineexercise.data.WeatherContract;
 import com.android.jahunkoo.sunshineexercise.data.WeatherContract.LocationEntry;
 import com.android.jahunkoo.sunshineexercise.data.WeatherContract.WeatherEntry;
+import com.android.jahunkoo.sunshineexercise.sync.SunshineSyncAdapter;
 
 import java.util.Date;
 
@@ -158,7 +159,7 @@ public class ForecastFragment extends Fragment implements LoaderCallbacks<Cursor
         */
 
         // Use SyncAdapter
-        new FetchWeatherTask(getActivity()).execute(location);
+        SunshineSyncAdapter.syncImmediately(getActivity());
     }
 
     @Override
