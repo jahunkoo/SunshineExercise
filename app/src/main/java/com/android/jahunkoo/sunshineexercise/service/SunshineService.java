@@ -291,6 +291,7 @@ public class SunshineService extends IntentService {
         // Always close our cursor
         if ( null != locationCursor ) locationCursor.close();
 
+        
         // Wait, that worked?  Yes!
         return locationId;
     }
