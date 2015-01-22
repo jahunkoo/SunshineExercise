@@ -61,7 +61,7 @@
     <xliff:g id="low">%4$s</xliff:g></string>
 
     <!-- SyncAdapter related -->
-    <string name="sync_account_type">example.com</string>
-    <string name="sync_authority">"ccom.android.jahunkoo.sunshineexercise"</string>
+    <string name="sync_account_type">jahunkoo.android.com</string>
+    <string name="content_authority">"com.android.jahunkoo.sunshineexercise"</string>
 
 </resources>
